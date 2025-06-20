@@ -1,38 +1,37 @@
 package com.example.chatbot.entity;
 
+import com.example.chatbot.dto.MessageDTO;
+import com.example.chatbot.util.MessageRole;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Chats {
+@Entity
+public class Messages {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String title;
+    @Enumerated(EnumType.STRING)
+    private MessageRole role;
+    private String message;
     private LocalDateTime createdAt;
 
-    @JoinColumn(name = "userid")
-    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "chatId")
+    @ManyToOne
     @JsonBackReference
-    private User user;
-
-    @OneToMany
-    @JsonBackReference
-    private List<Messages> messages;
+    private Chats chat;
 
     @PrePersist
-    public void createdAt() {
+    public void create() {
         this.createdAt = LocalDateTime.now();
     }
 }
