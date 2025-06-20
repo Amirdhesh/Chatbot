@@ -5,6 +5,7 @@ import com.example.chatbot.Mapper.ChatsMapper;
 import com.example.chatbot.dto.ChatDTO;
 import com.example.chatbot.dto.ChatsDTO;
 import com.example.chatbot.entity.Chats;
+import com.example.chatbot.entity.User;
 import com.example.chatbot.repository.ChatsRepo;
 import com.example.chatbot.repository.UserRepo;
 import jakarta.transaction.Transactional;
@@ -23,14 +24,16 @@ public class ChatsService {
     private UserRepo userRepo;
 
     @Transactional
-    public Chats createChat(ChatDTO chatDTO) {
+    public Chats createChat(ChatDTO chatDTO, String email) {
+        User user = userRepo.findByEmail(email);
         Chats chat = new ChatMapper().toEntity(chatDTO);
+        chat.setUser(user);
         return chatsRepo.save(chat);
     }
 
     public List<ChatsDTO> retrive(String email) {
-        UUID userId = userRepo.findIdByEmail(email);
-        List<Chats> chats = chatsRepo.findByuserId(userId);
+        User user = userRepo.findByEmail(email);
+        List<Chats> chats = chatsRepo.findByuserId(user.getId());
         ChatsMapper mapper = new ChatsMapper();
         List<ChatsDTO> chatsDTOList = chats.stream().map(mapper::toDto).collect(Collectors.toList());
         return chatsDTOList;

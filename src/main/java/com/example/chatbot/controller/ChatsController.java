@@ -20,18 +20,19 @@ public class ChatsController {
     private ChatsService chatsService;
 
     @PostMapping("/Chat")
-    public Chats newChat(@RequestBody ChatDTO chat) {
-        return chatsService.createChat(chat);
+    public ResponseEntity<Chats> newChat(@RequestBody ChatDTO chat, Authentication authentication) {
+        return new ResponseEntity<>(chatsService.createChat(chat, authentication.getName()), HttpStatus.CREATED);
     }
 
     @GetMapping("/Chats")
-    public List<ChatsDTO> showChats(Authentication authentication) {
-        return chatsService.retrive(authentication.getName());
+    public ResponseEntity<List<ChatsDTO>> showChats(Authentication authentication) {
+        System.out.println(authentication.getName());
+        return new ResponseEntity<>(chatsService.retrive(authentication.getName()), HttpStatus.OK);
     }
 
     @PutMapping("/Chat")
-    public ChatsDTO editTitle(@RequestBody ChatsDTO chat, Authentication authentication) {
-        return chatsService.changeTitle(chat, authentication.getName());
+    public ResponseEntity<ChatsDTO> editTitle(@RequestBody ChatsDTO chat, Authentication authentication) {
+        return new ResponseEntity<>(chatsService.changeTitle(chat, authentication.getName()), HttpStatus.OK);
     }
 
     @DeleteMapping("/Chat/{chatId}")

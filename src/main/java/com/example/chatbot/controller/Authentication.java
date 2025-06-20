@@ -2,18 +2,16 @@ package com.example.chatbot.controller;
 
 import com.example.chatbot.dto.LoginDTO;
 import com.example.chatbot.dto.RegisterationDTO;
-import com.example.chatbot.entity.User;
 import com.example.chatbot.service.AuthenticationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/auth")
 public class Authentication {
     @Autowired
     AuthenticationService authService;
@@ -30,7 +28,6 @@ public class Authentication {
         Cookie cookie = new Cookie("JwtToken", jwt);
         cookie.setMaxAge(30 * 60);
         response.addCookie(cookie);
-        System.out.print("Test: ");
         return new ResponseEntity<>("Success", HttpStatus.ACCEPTED);
     }
 
