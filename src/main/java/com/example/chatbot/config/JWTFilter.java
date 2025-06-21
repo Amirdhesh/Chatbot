@@ -33,7 +33,11 @@ public class JWTFilter extends OncePerRequestFilter {
             for (Cookie cookie : request.getCookies()) {
                 if ("JwtToken".equals(cookie.getName())) {
                     token = cookie.getValue();
-                    useremail = jwtService.extractUserEmail(token);
+                    try {
+                        useremail = jwtService.extractUserEmail(token);
+                    } catch (Exception e) {
+                        logger.warn("Invalid JWT token: " + e.getMessage());
+                    }
                 }
             }
         }

@@ -22,10 +22,11 @@ public class Messages {
     private UUID id;
     @Enumerated(EnumType.STRING)
     private MessageRole role;
+    @Column(columnDefinition = "TEXT")
     private String message;
     private LocalDateTime createdAt;
 
-    @JoinColumn(name = "chatId")
+    @JoinColumn(name = "chat_id")
     @ManyToOne
     @JsonBackReference
     private Chats chat;

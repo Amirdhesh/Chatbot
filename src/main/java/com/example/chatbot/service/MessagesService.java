@@ -7,6 +7,7 @@ import com.example.chatbot.entity.Chats;
 import com.example.chatbot.entity.Messages;
 import com.example.chatbot.repository.ChatsRepo;
 import com.example.chatbot.repository.MessagesRepo;
+import com.example.chatbot.util.LLMClient;
 import com.example.chatbot.util.MessageRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class MessagesService {
     private MessagesRepo messagesRepo;
     @Autowired
     private ChatsRepo chatsRepo;
+
+    @Autowired
+    private LLMClient llm;
 
     public List<MessageDTO> listMessages(UUID chatId, String email) {
         Chats chat = chatsRepo.findById(chatId)
@@ -46,7 +50,7 @@ public class MessagesService {
         userquery.setMessage(userMessageDTO.getQuery());
         userquery.setRole(MessageRole.USER);
         userquery.setChat(chat);
-        //String botReply = callLLM(userMessage);
+        String reply = llm.callLLM(userMessageDTO.getQuery());
 
         Messages botResponse = new Messages();
         botResponse.setMessage(reply);

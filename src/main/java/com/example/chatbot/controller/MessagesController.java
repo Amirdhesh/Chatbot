@@ -3,6 +3,7 @@ package com.example.chatbot.controller;
 import com.example.chatbot.dto.MessageDTO;
 import com.example.chatbot.dto.UserMessageDTO;
 import com.example.chatbot.service.MessagesService;
+import com.example.chatbot.util.LLMClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +11,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/chat")
+@RequestMapping("/api")
 public class MessagesController {
     @Autowired
     MessagesService messagesService;

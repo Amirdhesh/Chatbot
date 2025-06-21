@@ -13,8 +13,8 @@ import java.util.UUID;
 @Repository
 public interface MessagesRepo extends JpaRepository<Messages, UUID> {
     @Query(value = "SELECT m.* FROM messages m" +
-            " JOIN chats c ON m.chatId=c.id " +
-            "JOIN \"user\" u ON c.userId=u.id " +
+            " JOIN chats c ON m.chat_id=c.id " +
+            "JOIN \"user\" u ON c.user_id=u.id " +
             "where c.id=:chatId AND u.email=:email", nativeQuery = true)
     List<Messages> findBychatIdAndEmail(@Param("chatId") UUID chatId, @Param("email") String email);
 }

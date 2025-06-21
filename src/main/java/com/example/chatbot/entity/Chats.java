@@ -22,12 +22,12 @@ public class Chats {
     private String title;
     private LocalDateTime createdAt;
 
-    @JoinColumn(name = "userid")
-    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    @ManyToOne
     @JsonBackReference
     private User user;
 
-    @OneToMany
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<Messages> messages;
 

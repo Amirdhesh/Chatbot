@@ -26,6 +26,9 @@ public class Authentication {
     public ResponseEntity<String> verification(@RequestParam String otp, @RequestParam String email, HttpServletResponse response) {
         String jwt = authService.verifyotp(otp, email);
         Cookie cookie = new Cookie("JwtToken", jwt);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false);
+        cookie.setPath("/");
         cookie.setMaxAge(30 * 60);
         response.addCookie(cookie);
         return new ResponseEntity<>("Success", HttpStatus.ACCEPTED);
@@ -35,6 +38,9 @@ public class Authentication {
     public ResponseEntity<String> login(@RequestBody LoginDTO user, HttpServletResponse response) {
         String jwt = authService.verify(user);
         Cookie cookie = new Cookie("JwtToken", jwt);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false);
+        cookie.setPath("/");
         cookie.setMaxAge(30 * 60);
         response.addCookie(cookie);
         return new ResponseEntity<>("Success", HttpStatus.ACCEPTED);
